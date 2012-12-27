@@ -1,0 +1,21 @@
+{
+  "name": "flex-fuel-calculator",
+  "description": "Calculators for e85 flex fuel.",
+  "version": "0.0.1",
+  "author": {
+    "name": "Calvin Bushor",
+    "email": "calvinbushor@gmail.com"
+  },
+  "main": "index",
+  "dependencies": {
+  },
+  "engines": {
+    "node": ">= 0.8.x"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "readme": "ERROR: No README.md file found!"
+}
