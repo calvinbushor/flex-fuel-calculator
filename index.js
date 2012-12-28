@@ -1,7 +1,19 @@
 function flexFuelCalculator() {}
 
-flexFuelCalculator.prototype.calculate = function(body) {
+flexFuelCalculator.prototype.calculate = function(body, callback) {
 	var that, data;
+
+	if ( undefined === body ) throw new Error('Var {body} is required.');
+	if ( undefined === callback ) throw new Error('Var {callback} is required.');
+
+	if ( undefined === body['mpge']   ||
+		 undefined === body['mpgg']   ||
+		 undefined === body['pricee'] ||
+		 undefined === body['priceg'] ) {
+
+		callback('Not all required fields were provided.', null);
+		return;
+	}
 
 	that = this;
 	data = {
@@ -30,9 +42,12 @@ flexFuelCalculator.prototype.calculate = function(body) {
 	data['winner'] = that.get().winner(data['e85'], data['gas']);
 	data['savings']['money'] = that.get().savings(data['e85']['cpm'], data['gas']['cpm']);
 	data['savings']['miles'] = that.get().savings(data['e85']['mpd'], data['gas']['mpd']);
-	data['savings']['tank']  = that.get().savingsPerTank(data['savings']['money'], body['tank']);
 
-	return data;
+	if ( undefined !== body['tank'] ) {
+		data['savings']['tank']  = that.get().savingsPerTank(data['savings']['money'], body['tank']);	
+	}	
+
+	callback(null, data);
 }
 
 flexFuelCalculator.prototype.get = function() {
