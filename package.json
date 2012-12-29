@@ -1,7 +1,7 @@
 {
   "name": "flex-fuel-calculator",
   "description": "Calculators for e85 flex fuel.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": {
     "name": "Calvin Bushor",
     "email": "calvinbushor@gmail.com"
