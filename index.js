@@ -10,13 +10,19 @@ flexFuelCalculator.prototype.calculate = function(body, callback) {
 		 undefined === body['mpgg']   ||
 		 undefined === body['pricee'] ||
 		 undefined === body['priceg'] ) {
-
+		
 		callback('Not all required fields were provided.', null);
 		return;
 	}
 
 	that = this;
 	data = {
+		inputs: {
+			mpge: 	undefined,
+			mpgg:   undefined,
+			pricee: undefined,
+			priceg: undefined
+		},
 		e85: {
 			cpm: undefined,
 			mpd: undefined
@@ -32,6 +38,11 @@ flexFuelCalculator.prototype.calculate = function(body, callback) {
 			tank:  undefined
 		}
 	};
+
+	data['inputs']['mpge']   = body['mpge'];
+	data['inputs']['mpgg']   = body['mpgg'];
+	data['inputs']['pricee'] = body['pricee'];
+	data['inputs']['priceg'] = body['priceg'];
 
 	data['e85']['cpm'] = that.get().costPerMile(body['mpge'], body['pricee']);
 	data['e85']['mpd'] = that.get().milesPerDollar(body['mpge'], body['pricee']);
