@@ -1,17 +1,65 @@
+var check = require('validator').check;
+
 function flexFuelCalculator() {}
 
+flexFuelCalculator.prototype.val
+
+flexFuelCalculator.prototype.validate = function() {
+	var that, methods;
+
+	that    = this;
+	methods = {};
+
+	function fieldIsEmpty(field, data) {
+		var empty;
+
+		try {
+			check(data[field], 'Field {' + field + '} cannot be empty.').notEmpty();
+			empty = false;
+		} catch (e) {
+			empty = true;
+		}
+
+		return empty;
+	}
+
+	methods.notEmpty = function(required, data) {
+		var valid;
+
+		if ( undefined === required ) throw new Error('Var {required} cannot be undefined.');
+		if ( undefined === data ) throw new Error('Var {data} cannot be undefined.');
+
+		valid = true;
+
+		required.forEach(function(field) {
+			if ( fieldIsEmpty(field, data) ) {
+				valid = false;
+			}
+		});
+
+		return valid;
+	}
+
+	return methods;
+}
+
 flexFuelCalculator.prototype.calculate = function(body, callback) {
-	var that, data;
+	var that, data, required, err;
 
 	if ( undefined === body ) throw new Error('Var {body} is required.');
 	if ( undefined === callback ) throw new Error('Var {callback} is required.');
 
-	if ( undefined === body['mpge']   ||
-		 undefined === body['mpgg']   ||
-		 undefined === body['pricee'] ||
-		 undefined === body['priceg'] ) {
-		
-		callback('Not all required fields were provided.', null);
+	that 	 = this;
+	required = ['mpge', 'mpge', 'pricee', 'priceg'];	
+
+	if ( !that.validate().notEmpty(required, body) ) {
+		err = {
+			message: 'Not all required fields were provided.',
+			required: required,
+			code:     400
+		};
+
+		callback(err, null);
 		return;
 	}
 
