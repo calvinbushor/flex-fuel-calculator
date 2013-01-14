@@ -140,14 +140,25 @@ flexFuelCalculator.prototype.get = function() {
 	}
 
 	methods.winner = function(e85, gas) {
-		if ( e85['cpm'] > gas['cpm'] && e85['mpd'] < gas['mpd'] ) {
+		var cpme, cpmg, mpde, mpde;
+
+		cpme = parseFloat(e85['cpm']);
+		cpmg = parseFloat(gas['cpm']);
+		mpde = parseFloat(e85['mpd']);
+		mpdg = parseFloat(gas['mpd']);
+
+		if ( cpme > cpmg && mpde < mpdg ) {
 			return 'gas';
-		} else if ( e85['cpm'] < gas['cpm'] && e85['mpd'] > gas['mpd'] ) {
+		} else if ( cpme < cpmg && mpde > mpdg ) {
 			return 'e85';
-		} else if ( e85['cpm'] < gas['cpm'] && e85['mpd'] < gas['mpd'] ) {
-			return 'less but more';
-		} else if ( e85['cpm'] > gas['cpm'] && e85['mpd'] > gas['mpd'] ) {
-			return 'more but less';
+		} else if ( cpme === cpmg && mpde > mpdg ) {
+			return 'e85';
+		} else if ( cpme === cpmg && mpde < mpdg ) {
+			return 'gas';
+		} else if ( cpme < cpmg && mpde === mpdg ) {
+			return 'e85';
+		} else if ( cpme > cpmg && mpde === mpdg ) {
+			return 'gas';
 		} else {
 			return 'tie';
 		}
